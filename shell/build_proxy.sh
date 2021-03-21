@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -x
+# set -x
 echo 'Start compiling "vx-proxy".'
 
 # 获取git tag版本号
@@ -34,8 +34,6 @@ fi
 
 # 编译多个可执行程序
 echo  ${ROOT_DIR}
-
-
 #if [ -d ${ROOT_DIR}/demo/add_blog_license ]; then
 #  cd ${ROOT_DIR}/demo/add_blog_license && go build -ldflags "$LDFlags" -o ${ROOT_DIR}/bin/add_blog_license
 #fi
@@ -56,7 +54,23 @@ echo  ${ROOT_DIR}
 #  cd ${ROOT_DIR}/demo/taskpool && go build -ldflags "$LDFlags" -o ${ROOT_DIR}/bin/taskpool
 #fi
 
+if [ -d ${ROOT_DIR}/../apps/vx-proxy ]; then
+  cd ${ROOT_DIR}/../apps/vx-proxy && go build -ldflags "$LDFlags" -o ${ROOT_DIR}/bin/vx-proxy
+fi
+
+if [ -d ${ROOT_DIR}/../apps/vx-admin ]; then
+  cd ${ROOT_DIR}/../apps/vx-admin && go build -ldflags "$LDFlags" -o ${ROOT_DIR}/bin/vx-admin
+fi
+
+if [ -d ${ROOT_DIR}/../apps/vx-service ]; then
+  cd ${ROOT_DIR}/../apps/vx-service && go build -ldflags "$LDFlags" -o ${ROOT_DIR}/bin/vx-service
+fi
+
 ls -lrt ${ROOT_DIR}/bin &&
-cd ${ROOT_DIR} && ./bin/vx-proxy -v &&
+
+echo
+cd ${ROOT_DIR} && ./bin/vx-proxy -version &&
+cd ${ROOT_DIR} && ./bin/vx-admin -version &&
+cd ${ROOT_DIR} && ./bin/vx-service -version &&
 
 echo 'build done.'

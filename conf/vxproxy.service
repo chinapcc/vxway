@@ -1,0 +1,27 @@
+# systemd config for vx-proxy
+# must run after etcd start
+# must run after redis start
+
+# make build
+# cp conf/vxproxy.service /etc/systemd/system/
+# systemctl start vxproxy
+# systemctl status vxproxy
+
+[Unit]
+Description=Value X Proxy (API Gateway)
+Documentation=https://vxway.com
+After=network.target
+
+[Service]
+User=vxway
+Type=notify
+Environment=VXWAY_DATA_DIR=/home/vxway/data
+Environment=VXWAY_LOGS_DIR=/home/vxway/logs
+Environment=VXWAY_NAME=%m
+ExecStart=/usr/local/bin/vxway -c /etc/vxway/proxy_80.conf
+Restart=always
+RestartSec=10s
+LimitNOFILE=40000
+
+[Install]
+WantedBy=multi-user.target
